@@ -6,14 +6,33 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = \App\User::paginate(10);
+
+        $filterKeyword = $request->get('keyword');
+        $status        = $request->get('status');
+        if ($filterKeyword) {
+            if ($status) {
+                $users = \App\User::where('email', 'LIKE', '%$filterKeyword%')
+                ->where('status', $status)
+                ->paginate(10);
+            }
+            else{
+                $users = \App\User::where('email', 'LIKE', '%$filterKeyword%')
+                ->paginate(10);
+            }
+        }
+
         return view('users.index', ['users' => $users]);
     }
 

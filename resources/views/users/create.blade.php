@@ -11,7 +11,7 @@
         @endif
         <form action="{{ route('users.store') }}" class="bg-white shadow-sm p-3" enctype="multipart/form-data" method="post">
             @csrf
-            <label for="name">name</label>
+            <label for="name">Name</label>
             <input class="form-control" placeholder="Full Name" type="text" name="name" id="name"/>
             <br>
             <label for="username">Username</label>
@@ -40,7 +40,7 @@
             <input id="avatar" name="avatar" type="file" class="form-control">
             <hr class="my-3">
             <label for="email">Email</label>
-            <input class="form-control" placeholder="user@mail.com" type="text" name="email" id="email"/>
+            <input class="form-control" placeholder="user@mail.com" type="email" name="email" id="email"/>
             <br>
             <label for="password">Password</label>
             <input class="form-control" placeholder="password" type="password" name="password" id="password"/>
