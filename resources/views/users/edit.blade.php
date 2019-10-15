@@ -14,7 +14,7 @@
             @method('put')
 
             <label for="name">Name</label>
-            <input value="{{$user->name}}" class="form-control" placeholder="Full Name" type="text" name="name" id="name"/>
+            <input value="{{ old('name') ? old('name') : $user->name }}" class="form-control @error('name') is-invalid @enderror" placeholder="Full Name" type="text" name="name" id="name"/>
             <br>
 
             <label for="username">Username</label>
@@ -30,22 +30,32 @@
 
             <label for="">Roles</label>
             <br>
-            <input type="checkbox" {{in_array("ADMIN", json_decode($user->roles)) ? "checked" : ""}} name="roles[]" id="ADMIN" value="ADMIN">
+            <input @error('roles') class="is-invalid" @enderror type="checkbox" {{in_array("ADMIN", json_decode($user->roles)) ? "checked" : ""}} name="roles[]" id="ADMIN" value="ADMIN">
             <label for="ADMIN">Administrator</label>
-            <input type="checkbox" {{in_array("STAFF", json_decode($user->roles)) ? "checked" : ""}} name="roles[]" id="STAFF" value="STAFF">
+            <input @error('roles') class="is-invalid" @enderror type="checkbox" {{in_array("STAFF", json_decode($user->roles)) ? "checked" : ""}} name="roles[]" id="STAFF" value="STAFF">
             <label for="STAFF">Staff</label>
-            <input
-            type="checkbox" {{in_array("CUSTOMER", json_decode($user->roles)) ? "checked" : ""}} name="roles[]" id="CUSTOMER" value="CUSTOMER">
+            <input @error('roles') class="is-invalid" @enderror type="checkbox" {{in_array("CUSTOMER", json_decode($user->roles)) ? "checked" : ""}} name="roles[]" id="CUSTOMER" value="CUSTOMER">
             <label for="CUSTOMER">Customer</label>
+            @error('roles')
+                <div class="invalid-feedback">
+                    {[ $errors->first->roles ]}
+                </div>
+            @enderror
             <br>
             <br>
             <label for="phone">Phone number</label>
             <br>
-            <input type="text" name="phone" class="form-control" value="{{$user->phone}}">
+            <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{$user->phone}}">
+            <div class="invalid-feedback">
+                {{ $errors->first('phone') }}
+            </div>
             <br>
             <label for="address">Address</label>
-            <textarea name="address" id="address" class="form-control">{{$user->address}}
+            <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror">{{$user->address}}
             </textarea>
+            <div class="invalid-feedback">
+                {{ $errors->first('address') }}
+            </div>
             <br>
             <label for="avatar">Avatar image</label>
             <br>

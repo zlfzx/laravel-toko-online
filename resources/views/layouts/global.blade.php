@@ -70,6 +70,21 @@
                             <span class="oi oi-people"></span> Mangae Users
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('categories.index') }}">
+                            <span class="oi oi-tag"></span> Manage Categories
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('books.index') }}">
+                            <span class="oi oi-book"></span> Manage Books
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('orders.index') }}">
+                            <span class="oi oi-inbox"></span> Manage Order
+                        </a>
+                    </li>
 
                     <div class="d-block d-md-none">
                         <div class="dropdown-divider"></div>
@@ -103,5 +118,6 @@
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/popper.min.js') }}" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    @yield('footer-script')
 </body>
 </html>

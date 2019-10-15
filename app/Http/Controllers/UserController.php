@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware(function($request, $next){
+            if (Gate::allows('manage-users')) return $next($request);
+            abort(403, 'Anda tidak memiliki cukup hak akses');
+        });
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -23,12 +26,12 @@ class UserController extends Controller
         $status        = $request->get('status');
         if ($filterKeyword) {
             if ($status) {
-                $users = \App\User::where('email', 'LIKE', '%$filterKeyword%')
+                $users = \App\User::where('email', 'LIKE', "%$filterKeyword%")
                 ->where('status', $status)
                 ->paginate(10);
             }
             else{
-                $users = \App\User::where('email', 'LIKE', '%$filterKeyword%')
+                $users = \App\User::where('email', 'LIKE', "%$filterKeyword%")
                 ->paginate(10);
             }
         }
@@ -54,6 +57,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $validation = $request->validate([
+            "name" => "required|min:5|max:100",
+            "username" => "required|min:5|max:20",
+            "roles" => "required",
+            "phone" => "required|digits_between:10,12",
+            "address" => "required|min:20|max:200",
+            "avatar" => "required",
+            "email" => "required|email",
+            "password" => "required",
+            "password_confirmation" => "required|same:password"
+        ]);
+
         $user = new \App\User;
         $user->name = $request->get('name');
         $user->username = $request->get('username');
@@ -104,6 +119,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        \Validator::make($request->all(), [
+            'name' => 'required|min:5|max:100',
+            'roles' => 'required',
+            'phone' => 'required',
+            'address' => 'required|min:20|max:200'
+        ])->validate();
+
         $user = \App\User::findOrFail($id);
         $user->name = $request->get('name');
         $user->roles = json_encode($request->get('roles'));
